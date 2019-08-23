@@ -120,8 +120,8 @@ public class Main {
 		output("\nEnded\n");
 	}	
 
-		private static void FINES() {
-		new PayFineUI(new PayFineControl()).RuN();		
+	//updated RuN to Run	private static void FINES() {
+		new PayFineUI(new PayFineControl()).Run();		
 	}
 
 
