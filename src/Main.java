@@ -163,7 +163,7 @@ public class Main {
 
 
 	private static void FIX_BOOKS() {
-		new FixBookUI(new FixBookControl()).RuN();		
+		new FixBookUI(new FixBookControl()).Run();		
 	}
 
 
