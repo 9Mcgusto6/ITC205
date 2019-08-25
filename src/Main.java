@@ -41,7 +41,7 @@ public class Main {
 		try {			
 			IN = new Scanner(System.in);
 			LIB = library.INSTANCE();
-			CAL = Calendar.INSTANCE();
+			CAL = Calendar.instance();
 			SDF = new SimpleDateFormat("dd/MM/yyyy");
 	
 			for (member m : LIB.MEMBERS()) {
@@ -58,7 +58,7 @@ public class Main {
 			
 			while (!e) {
 				
-				output("\n" + SDF.format(CAL.Date()));
+				output("\n" + SDF.format(CAL.date()));
 				String c = input(MENU);
 				
 				switch (c.toUpperCase()) {
@@ -172,7 +172,7 @@ public class Main {
 			int days = Integer.valueOf(input("Enter number of days: ")).intValue();
 			CAL.incrementDate(days);
 			LIB.checkCurrentLoans();
-			output(SDF.format(CAL.Date()));
+			output(SDF.format(CAL.date()));
 			
 		} catch (NumberFormatException e) {
 			 output("\nInvalid number of days\n");

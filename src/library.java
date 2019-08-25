@@ -55,7 +55,7 @@ public class library implements Serializable {
 				try (ObjectInputStream LiF = new ObjectInputStream(new FileInputStream(libraryFile));) {
 			    
 					SeLf = (library) LiF.readObject();
-					Calendar.INSTANCE().Set_dATE(SeLf.LOAN_DATE);
+					Calendar.instance().setDate(SeLf.LOAN_DATE);
 					LiF.close();
 				}
 				catch (Exception e) {
@@ -70,7 +70,7 @@ public class library implements Serializable {
 	
 	public static synchronized void SAVE() {
 		if (SeLf != null) {
-			SeLf.LOAN_DATE = Calendar.INSTANCE().Date();
+			SeLf.LOAN_DATE = Calendar.instance().date();
 			try (ObjectOutputStream LoF = new ObjectOutputStream(new FileOutputStream(libraryFile));) {
 				LoF.writeObject(SeLf);
 				LoF.flush();
@@ -177,10 +177,10 @@ public class library implements Serializable {
 
 	
 	public loan ISSUE_LAON(book book, member member) {
-		Date dueDate = Calendar.INSTANCE().Due_Date(loanPeriod);
+		Date dueDate = Calendar.instance().dueDate(loanPeriod);
 		loan loan = new loan(NextLID(), book, member, dueDate);
 		member.Take_Out_Loan(loan);
-		book.Borrow();
+		book.borrow();
 		LOANS.put(loan.ID(), loan);
 		CURRENT_LOANS.put(book.ID(), loan);
 		return loan;
@@ -197,7 +197,7 @@ public class library implements Serializable {
 	
 	public double CalculateOverDueFine(loan loan) {
 		if (loan.OVer_Due()) {
-			long daysOverDue = Calendar.INSTANCE().Get_Days_Difference(loan.Get_Due_Date());
+			long daysOverDue = Calendar.instance().getDaysDifference(loan.Get_Due_Date());
 			double fine = daysOverDue * finePerDay;
 			return fine;
 		}
@@ -213,7 +213,7 @@ public class library implements Serializable {
 		member.Add_Fine(overDueFine);	
 		
 		member.dIsChArGeLoAn(currentLoan);
-		book.Return(isDamaged);
+		book.returnBook(isDamaged);
 		if (isDamaged) {
 			member.Add_Fine(damageFee);
 			DAMAGED_BOOKS.put(book.ID(), book);
@@ -232,7 +232,7 @@ public class library implements Serializable {
 
 	public void Repair_BOOK(book currentBook) {
 		if (DAMAGED_BOOKS.containsKey(currentBook.ID())) {
-			currentBook.Repair();
+			currentBook.repair();
 			DAMAGED_BOOKS.remove(currentBook.ID());
 		}
 		else {
