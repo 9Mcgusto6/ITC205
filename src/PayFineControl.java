@@ -1,7 +1,7 @@
 public class PayFineControl {
 	
 	private PayFineUI Ui;
-	private enum CONTROL_STATE { INITIALISED, READY, PAYING, COMPLETED, CANCELLED };
+	private enum CONTROL_STATE {INITIALISED, READY, PAYING, COMPLETED, CANCELLED};
 	private CONTROL_STATE State;
 	
 	private library Library; //renamed LiBrAry to Library
@@ -9,7 +9,7 @@ public class PayFineControl {
 
 
 	public PayFineControl() {
-		this.Library = Library.INSTANCE();
+		this.Library = library.INSTANCE();
 		State = CONTROL_STATE.INITIALISED; //updated StAtE to State
 	}
 	

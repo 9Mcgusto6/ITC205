@@ -37,9 +37,9 @@ public class FixBookUI {
 				}
 				else {
 					try {
-		//Book_ID changed to bookID
-						int bookID = Integer.valueOf(bookString).intValue();
-						Control.Book_scanned(bookID);
+		//Book_ID changed to bookId
+						int bookId = Integer.valueOf(bookString).intValue();
+						Control.Book_scanned(bookId);
 					}
 					catch (NumberFormatException e) {
 						output("Invalid bookId");

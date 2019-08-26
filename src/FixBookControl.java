@@ -1,64 +1,64 @@
 public class FixBookControl {
-	
+//CONTROL_STATE updated to ControlState	
 	private FixBookUI UI;
-	private enum CONTROL_STATE { INITIALISED, READY, FIXING };
-	private CONTROL_STATE State;
+	private enum ControlState { INITIALISED, READY, FIXING };
+	private ControlState State;
 //	updated StAtE to State
 	private library LIB;
-	private book Cur_Book;
-
+	private book CurrentBook;
+//Cur_book updated to CurrentBook. library updated to Library. book updated to Book
 
 	public FixBookControl() {
 		this.LIB = LIB.INSTANCE();
-		State = CONTROL_STATE.INITIALISED;
+		State = ControlState.INITIALISED;
 	}
 	
 	
 	public void Set_Ui(FixBookUI ui) {
-		if (!State.equals(CONTROL_STATE.INITIALISED)) {
+		if (!State.equals(ControlState.INITIALISED)) {
 			throw new RuntimeException("FixBookControl: cannot call setUI except in INITIALISED state");
 		}	
 		this.UI = ui;
 		ui.Set_State(FixBookUI.UI_STATE.READY);
-		State = CONTROL_STATE.READY;		
+		State = ControlState.READY;		
 	}
 
 
 	public void Book_scanned(int bookId) {
-		if (!State.equals(CONTROL_STATE.READY)) {
+		if (!State.equals(ControlState.READY)) {
 			throw new RuntimeException("FixBookControl: cannot call bookScanned except in READY state");
 		}	
-		Cur_Book = LIB.Book(bookId);
+		CurrentBook = LIB.Book(bookId);
 		
-		if (Cur_Book == null) {
+		if (CurrentBook == null) {
 			UI.display("Invalid bookId");
 			return;
 		}
-		if (!Cur_Book.IS_Damaged()) {
+		if (!CurrentBook.IS_Damaged()) {
 			UI.display("Book has not been damaged");
 			return;
 		}
-		UI.display(Cur_Book.toString());
+		UI.display(CurrentBook.toString());
 		UI.Set_State(FixBookUI.UI_STATE.FIXING);
-		State = CONTROL_STATE.FIXING;		
+		State = ControlState.FIXING;		
 	}
 
 
 	public void FIX_Book(boolean MUST_fix) {
-		if (!State.equals(CONTROL_STATE.FIXING)) {
+		if (!State.equals(ControlState.FIXING)) {
 			throw new RuntimeException("FixBookControl: cannot call fixBook except in FIXING state");
 		}	
 		if (MUST_fix) {
-			LIB.Repair_BOOK(Cur_Book);
+			LIB.Repair_BOOK(CurrentBook);
 		}
-		Cur_Book = null;
+		CurrentBook = null;
 		UI.Set_State(FixBookUI.UI_STATE.READY);
-		State = CONTROL_STATE.READY;		
+		State = ControlState.READY;		
 	}
 
 	//updated SCannING_COMplete to Scanning_Complete
 	public void Scanning_complete() {
-		if (!State.equals(CONTROL_STATE.READY)) {
+		if (!State.equals(ControlState.READY)) {
 			throw new RuntimeException("FixBookControl: cannot call scanningComplete except in READY state");
 		}	
 		UI.Set_State(FixBookUI.UI_STATE.COMPLETED);		
