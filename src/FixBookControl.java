@@ -4,7 +4,7 @@ public class FixBookControl {
 	private enum CONTROL_STATE { INITIALISED, READY, FIXING };
 	private CONTROL_STATE StAtE;
 	
-	private library LIB;
+	private Library LIB;
 	private book Cur_Book;
 
 
@@ -28,7 +28,7 @@ public class FixBookControl {
 		if (!StAtE.equals(CONTROL_STATE.READY)) {
 			throw new RuntimeException("FixBookControl: cannot call bookScanned except in READY state");
 		}	
-		Cur_Book = LIB.Book(bookId);
+		Cur_Book = LIB.currentBook(bookId);
 		
 		if (Cur_Book == null) {
 			UI.display("Invalid bookId");
@@ -49,7 +49,7 @@ public class FixBookControl {
 			throw new RuntimeException("FixBookControl: cannot call fixBook except in FIXING state");
 		}	
 		if (MUST_fix) {
-			LIB.Repair_BOOK(Cur_Book);
+			LIB.repairBook(Cur_Book);
 		}
 		Cur_Book = null;
 		UI.Set_State(FixBookUI.UI_STATE.READY);
