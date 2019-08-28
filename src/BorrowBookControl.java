@@ -5,7 +5,8 @@ public class BorrowBookControl {
 	
 	private BorrowBookUI ui; // was UI
 	
-	private library library; // was LIBRARY
+
+	private Library library; // was LIBRARY AS 28.8 class name changed from library to Library by J
 	private member member; // was M //delete whitespace, CONTROL_STATE
 	private enum ControlState {INITIALISED, READY, RESTRICTED, SCANNING, IDENTIFIED, FINALISING, COMPLETED, CANCELLED};
 	private ControlState currentState; // was State
@@ -16,7 +17,7 @@ public class BorrowBookControl {
 	
 	
 	public BorrowBookControl() {
-		this.library = library.INSTANCE();
+		this.library = library.instance();
 		currentState = ControlState.INITIALISED;
 	}
 	
@@ -35,15 +36,16 @@ public class BorrowBookControl {
 		if (!currentState.equals(ControlState.READY)) 
 			throw new RuntimeException("BorrowBookControl: cannot call cardSwiped except in READY state");
 			
-		member = library.MEMBER(memberID); //was member
+		member = library.currentMember(memberID); //was member, 28.8 MEMBER changed to currentMember by J
 		if (member == null) {
 			ui.display("Invalid memberId");
 			return;
 		}
-		if (library.MEMBER_CAN_BORROW(member)) {
+		if (library.memberCanBorrow(member)) { //memberCanBorrow by J
 			pending = new ArrayList<>();
 			ui.setState(BorrowBookUI.UIState.SCANNING);
 			currentState = ControlState.SCANNING; }
+
 		else 
 		{
 			ui.display("Member cannot borrow at this time");
@@ -55,10 +57,11 @@ public class BorrowBookControl {
 		if (!currentState.equals(ControlState.SCANNING)) {
 			throw new RuntimeException("BorrowBookControl: cannot call bookScanned except in SCANNING state");
 		}	
-		book = library.Book(bookId);
+
+		book = library.currentBook(bookId); //currentBook by J
 		if (book == null) {
 			ui.display("Invalid bookId");
-			return;
+
 		}
 		if (!book.available()) { //no change
 			ui.display("Book cannot be borrowed");
@@ -68,9 +71,11 @@ public class BorrowBookControl {
 		for (book book : pending) { //was b
 			ui.display(book.toString());
 		}
-		if (library.Loans_Remaining_For_Member(member) - pending.size() == 0) {// Loans_Remaining_For_Member
+
+		if (library.loansRemainingForMember(member) - pending.size() == 0) {// Loans_Remaining_For_Member is loansRemainingForMember J
 			ui.display("Loan limit reached");
 			complete();
+
 		}
 	}
 	
@@ -95,9 +100,11 @@ public class BorrowBookControl {
 		if (!currentState.equals(ControlState.FINALISING)) {
 			throw new RuntimeException("BorrowBookControl: cannot call commitLoans except in FINALISING state");
 		}	
+
 		for (book book : pending) { //B
-			loan loan = library.ISSUE_LAON(book, member);
+			loan loan = library.issueLoan(book, member); //issueLoan J
 			complete.add(loan);			
+
 		}
 		ui.display("Completed Loan Slip");
 		for (loan loan : complete) { //LOAN

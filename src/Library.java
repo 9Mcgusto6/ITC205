@@ -48,14 +48,14 @@ public class Library implements Serializable {
 	}
 
 	
-	public static synchronized Library instance() {		
+	public static synchronized Library INSTANCE() {		
 		if (self == null) {
 			Path path = Paths.get(LIBRARY_FILE);	//Was "Path PATH"		
 			if (Files.exists(path)) {	
 				try (ObjectInputStream lif = new ObjectInputStream(new FileInputStream(LIBRARY_FILE));) { //Was "LiF"
 			    
 					self = (Library) lif.readObject();
-					Calendar.instance().setDate(self.loanDate); // instance setDate AS
+					Calendar.INSTANCE().Set_dATE(self.loanDate);
 					lif.close();
 				}
 				catch (Exception e) {
@@ -70,7 +70,7 @@ public class Library implements Serializable {
 	
 	public static synchronized void save() { //Was "SAVE"
 		if (self != null) {
-			self.loanDate = Calendar.instance().date();
+			self.loanDate = Calendar.INSTANCE().Date();
 			try (ObjectOutputStream lof = new ObjectOutputStream(new FileOutputStream(LIBRARY_FILE));) { //Was "LoF"
 				lof.writeObject(self);
 				lof.flush();
@@ -177,10 +177,10 @@ public class Library implements Serializable {
 
 	
 	public loan issueLoan(book book, member member) {  //Was "ISSUE_LAON"
-		Date dueDate = Calendar.instance().dueDate(LOAN_PERIOD);
+		Date dueDate = Calendar.INSTANCE().Due_Date(LOAN_PERIOD);
 		loan loan = new loan(nextLoanId(), book, member, dueDate);
 		member.takeOutLoan(loan);
-		book.borrow(); //Borrow As
+		book.Borrow();
 		loansMap.put(loan.ID(), loan);
 		currentLoansMap.put(book.ID(), loan);
 		return loan;
@@ -197,7 +197,7 @@ public class Library implements Serializable {
 	
 	public double calculateOverdueFine(loan loan) { //Was "CalculateOverDueFine"
 		if (loan.OVer_Due()) {
-			long daysOverDue = Calendar.instance().getDaysDifference(loan.Get_Due_Date());//getDaysDifference AS
+			long daysOverDue = Calendar.INSTANCE().Get_Days_Difference(loan.Get_Due_Date());
 			double fine = daysOverDue * FINES_PER_DAY;
 			return fine;
 		}
@@ -213,7 +213,7 @@ public class Library implements Serializable {
 		member.addFine(overDueFine);	
 		
 		member.dischargeLoan(currentLoan);
-		book.returnBook(isDamaged); //returnBook
+		book.Return(isDamaged);
 		if (isDamaged) {
 			member.addFine(DAMAGE_FEE);
 			damagedBooksMap.put(book.ID(), book);
@@ -232,7 +232,7 @@ public class Library implements Serializable {
 
 	public void repairBook(book currentBook) { //Was "Repair_BOOK"
 		if (damagedBooksMap.containsKey(currentBook.ID())) {
-			currentBook.repair();
+			currentBook.Repair();
 			damagedBooksMap.remove(currentBook.ID());
 		}
 		else {
