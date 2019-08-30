@@ -25,7 +25,7 @@ public class loan implements Serializable {
 	
 	public void checkOverDue() {
 		if (state == LOAN_STATE.CURRENT &&
-			Calendar.INSTANCE().Date().after(D)) {
+			Calendar.instance().date().after(D)) {
 			this.state = LOAN_STATE.OVER_DUE;			
 		}
 	}
@@ -54,7 +54,7 @@ public class loan implements Serializable {
 		  .append("  Borrower ").append(M.getId()).append(" : ")
 		  .append(M.getLastName()).append(", ").append(M.getFirstName()).append("\n")
 		  .append("  Book ").append(B.ID()).append(" : " )
-		  .append(B.TITLE()).append("\n")
+		  .append(B.title()).append("\n")
 		  .append("  DueDate: ").append(sdf.format(D)).append("\n")
 		  .append("  State: ").append(state);		
 		return sb.toString();

@@ -40,8 +40,10 @@ public class Main {
 	public static void main(String[] args) {		
 		try {			
 			IN = new Scanner(System.in);
-			LIB = Library.INSTANCE();
-			CAL = Calendar.INSTANCE();
+
+			LIB = Library.instance(); //Library J
+			CAL = Calendar.instance();
+
 			SDF = new SimpleDateFormat("dd/MM/yyyy");
 	
 			for (member m : LIB.membersArray()) {
@@ -58,7 +60,7 @@ public class Main {
 			
 			while (!e) {
 				
-				output("\n" + SDF.format(CAL.Date()));
+				output("\n" + SDF.format(CAL.date()));
 				String c = input(MENU);
 				
 				switch (c.toUpperCase()) {
@@ -172,7 +174,7 @@ public class Main {
 			int days = Integer.valueOf(input("Enter number of days: ")).intValue();
 			CAL.incrementDate(days);
 			LIB.checkCurrentLoans();
-			output(SDF.format(CAL.Date()));
+			output(SDF.format(CAL.date()));
 			
 		} catch (NumberFormatException e) {
 			 output("\nInvalid number of days\n");
